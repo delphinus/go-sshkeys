@@ -5,6 +5,7 @@ type SSHKeys struct {
 	PrivateKey []byte
 	PublicKey  []byte
 
+	filename   string
 	keyType    string
 	keyLength  int
 	dir        string
@@ -15,6 +16,18 @@ type SSHKeys struct {
 // Option is an interface to set options for SSHKeys.
 type Option interface {
 	apply(*SSHKeys)
+}
+
+// WithFilename is an option to specify the filename of keys.  The default
+// value is `id_rsa` and the public key will be `id_rsa.pub`.
+func WithFilename(n string) Option { return &withFilenameOption{n} }
+
+type withFilenameOption struct{ filename string }
+
+func (o *withFilenameOption) apply(s *SSHKeys) {
+	if o.filename != "" {
+		s.filename = o.filename
+	}
 }
 
 // WithKeyType is an option to specify the type of keys.  Now this package

@@ -3,6 +3,7 @@ package sshKeys
 import (
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -41,9 +42,14 @@ func TestSave(t *testing.T) {
 	d, err := ioutil.TempDir("", "")
 	a.NoError(err)
 	defer func() { a.NoError(os.RemoveAll(d)) }()
-	s := New(WithDir(d))
+	s := New(
+		WithDir(d),
+		WithFilename("hogehogeo"),
+	)
 	a.NoError(s.Generate())
 	a.NoError(s.Save())
+	a.Equal(filepath.Join(d, "hogehogeo"), s.privateKeyFile())
+	a.Equal(filepath.Join(d, "hogehogeo.pub"), s.publicKeyFile())
 	dump(t, s)
 }
 

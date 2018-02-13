@@ -21,6 +21,7 @@ const (
 // New creates a new instance for SSHKeys
 func New(opts ...Option) *SSHKeys {
 	s := SSHKeys{
+		filename:  "id_rsa",
 		keyType:   "RSA",
 		keyLength: 2048,
 		dir:       ".",
@@ -101,12 +102,12 @@ func (s *SSHKeys) Read() (err error) {
 
 func (s *SSHKeys) privateKeyFile() string {
 	// TODO: detect keyType and support other than RSA.
-	return filepath.Join(s.dir, "id_rsa")
+	return filepath.Join(s.dir, s.filename)
 }
 
 func (s *SSHKeys) publicKeyFile() string {
 	// TODO: detect keyType and support other than RSA.
-	return filepath.Join(s.dir, "id_rsa.pub")
+	return filepath.Join(s.dir, s.filename+".pub")
 }
 
 func (s *SSHKeys) blockType() string {
