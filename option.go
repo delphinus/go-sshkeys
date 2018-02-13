@@ -1,5 +1,6 @@
 package sshKeys
 
+// SSHKeys is the struct to use create keys
 type SSHKeys struct {
 	PrivateKey []byte
 	PublicKey  []byte
