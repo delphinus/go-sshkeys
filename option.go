@@ -1,6 +1,6 @@
 package sshKeys
 
-type sshKeys struct {
+type SSHKeys struct {
 	PrivateKey []byte
 	PublicKey  []byte
 
@@ -11,9 +11,9 @@ type sshKeys struct {
 	comment    []byte
 }
 
-// Option is an interface to set options for sshKeys.
+// Option is an interface to set options for SSHKeys.
 type Option interface {
-	apply(*sshKeys)
+	apply(*SSHKeys)
 }
 
 // WithKeyType is an option to specify the type of keys.  Now this package
@@ -25,7 +25,7 @@ func WithKeyType(t string) Option {
 
 type withKeyTypeOption struct{ keyType string }
 
-func (o *withKeyTypeOption) apply(s *sshKeys) { s.keyType = o.keyType }
+func (o *withKeyTypeOption) apply(s *SSHKeys) { s.keyType = o.keyType }
 
 // WithKeyLength is an option to specify the length of keys.
 func WithKeyLength(l int) Option {
@@ -37,7 +37,7 @@ func WithKeyLength(l int) Option {
 
 type withKeyLengthOption struct{ length int }
 
-func (o *withKeyLengthOption) apply(s *sshKeys) { s.keyLength = o.length }
+func (o *withKeyLengthOption) apply(s *SSHKeys) { s.keyLength = o.length }
 
 // WithDir is an option to specify the directory to store created keys.  It
 // will create the dir before saving keys if not exists.
@@ -50,14 +50,14 @@ func WithDir(d string) Option {
 
 type withDirOption struct{ dir string }
 
-func (o *withDirOption) apply(s *sshKeys) { s.dir = o.dir }
+func (o *withDirOption) apply(s *SSHKeys) { s.dir = o.dir }
 
 // WithPassphrase is an option to specify the pass phrase to encrypt keys.
 func WithPassphrase(pp []byte) Option { return &withPassphraseOption{pp} }
 
 type withPassphraseOption struct{ passphrase []byte }
 
-func (o *withPassphraseOption) apply(s *sshKeys) { s.passphrase = o.passphrase }
+func (o *withPassphraseOption) apply(s *SSHKeys) { s.passphrase = o.passphrase }
 
 // WithComment is an option to specify the comment of the public key file.
 // This is usually used to store the mail address.
@@ -65,4 +65,4 @@ func WithComment(c []byte) Option { return &withCommentOption{c} }
 
 type withCommentOption struct{ comment []byte }
 
-func (o *withCommentOption) apply(s *sshKeys) { s.comment = o.comment }
+func (o *withCommentOption) apply(s *SSHKeys) { s.comment = o.comment }

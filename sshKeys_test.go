@@ -81,7 +81,7 @@ func TestRead(t *testing.T) {
 }
 
 // dump is for testing
-func dump(t *testing.T, s *sshKeys) {
+func dump(t *testing.T, s *SSHKeys) {
 	t.Logf("PrivateKey: %s", s.PrivateKey)
 	t.Logf("PublicKey: %s", s.PublicKey)
 }

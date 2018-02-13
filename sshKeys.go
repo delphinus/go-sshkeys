@@ -18,9 +18,9 @@ const (
 	rsaBlockType = "RSA PRIVATE KEY"
 )
 
-// New creates a new instance for sshKeys
-func New(opts ...Option) *sshKeys {
-	s := sshKeys{
+// New creates a new instance for SSHKeys
+func New(opts ...Option) *SSHKeys {
+	s := SSHKeys{
 		keyType:   "RSA",
 		keyLength: 2048,
 		dir:       ".",
@@ -32,7 +32,7 @@ func New(opts ...Option) *sshKeys {
 }
 
 // Generate generates the key pair of RSA.
-func (s *sshKeys) Generate() error {
+func (s *SSHKeys) Generate() error {
 	pKey, err := rsa.GenerateKey(rand.Reader, s.keyLength)
 	if err != nil {
 		return fmt.Errorf("error in GenerateKey: %v", err)
@@ -62,7 +62,7 @@ func (s *sshKeys) Generate() error {
 }
 
 // Save saves keys to the supplied dir
-func (s *sshKeys) Save() error {
+func (s *SSHKeys) Save() error {
 	if i, err := os.Stat(s.dir); os.IsNotExist(err) || !i.IsDir() {
 		if err := os.MkdirAll(s.dir, 0700); err != nil {
 			return fmt.Errorf("error in MkdirAll: %v", err)
@@ -78,7 +78,7 @@ func (s *sshKeys) Save() error {
 }
 
 // Read reads keys from the supplied dir
-func (s *sshKeys) Read() (err error) {
+func (s *SSHKeys) Read() (err error) {
 	s.PrivateKey, err = ioutil.ReadFile(s.privateKeyFile())
 	if err != nil {
 		return fmt.Errorf("error in ReadFile: %v", err)
@@ -99,17 +99,17 @@ func (s *sshKeys) Read() (err error) {
 	return nil
 }
 
-func (s *sshKeys) privateKeyFile() string {
+func (s *SSHKeys) privateKeyFile() string {
 	// TODO: detect keyType and support other than RSA.
 	return filepath.Join(s.dir, "id_rsa")
 }
 
-func (s *sshKeys) publicKeyFile() string {
+func (s *SSHKeys) publicKeyFile() string {
 	// TODO: detect keyType and support other than RSA.
 	return filepath.Join(s.dir, "id_rsa.pub")
 }
 
-func (s *sshKeys) blockType() string {
+func (s *SSHKeys) blockType() string {
 	// TODO: detect keyType and support other than RSA.
 	return rsaBlockType
 }
