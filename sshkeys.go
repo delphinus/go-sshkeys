@@ -1,4 +1,4 @@
-package sshKeys
+package sshkeys
 
 import (
 	"crypto/rand"
@@ -43,7 +43,8 @@ func (s *SSHKeys) Generate() error {
 		Bytes: x509.MarshalPKCS1PrivateKey(pKey),
 	}
 	if len(s.passphrase) > 0 {
-		b, err = x509.EncryptPEMBlock(rand.Reader, b.Type, b.Bytes, s.passphrase, x509.PEMCipherAES256)
+		b, err = x509.EncryptPEMBlock(
+			rand.Reader, b.Type, b.Bytes, s.passphrase, x509.PEMCipherAES256)
 		if err != nil {
 			return fmt.Errorf("error in EncryptPEMBlock: %v", err)
 		}
@@ -69,7 +70,8 @@ func (s *SSHKeys) Save() error {
 			return fmt.Errorf("error in MkdirAll: %v", err)
 		}
 	}
-	if err := ioutil.WriteFile(s.privateKeyFile(), s.PrivateKey, 0600); err != nil {
+	if err := ioutil.WriteFile(
+		s.privateKeyFile(), s.PrivateKey, 0600); err != nil {
 		return fmt.Errorf("error in WriteFile: %v", err)
 	}
 	if err := ioutil.WriteFile(s.publicKeyFile(), s.PublicKey, 0600); err != nil {
