@@ -1,4 +1,4 @@
-package sshKeys
+package sshkeys
 
 // SSHKeys is the struct to use create keys
 type SSHKeys struct {
